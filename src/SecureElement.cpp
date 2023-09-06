@@ -183,15 +183,18 @@ int SecureElement::readCert(ECP256Certificate & cert, const int certSlot)
 
 int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
 {
-#if defined(BOARD_HAS_SE050)
-  size_t outLen;
-  _secureElement.SHA256(buffer, size, digest, 32, &outLen);
-#else
   _secureElement.beginSHA256();
-  
-  unit8_t * cursor = buffer;
+  uint8_t * cursor = (uint8_t*)buffer;
   uint32_t bytes_read = 0;
-  for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64;) {
+#if defined(BOARD_HAS_SE050)
+  size_t outLen = 32;
+  for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64) {
+    _secureElement.updateSHA256(cursor, 64);
+  }
+  _secureElement.updateSHA256(cursor, size - bytes_read);
+  _secureElement.endSHA256(digest, &outLen);
+#else
+  for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64) {
     _secureElement.updateSHA256(cursor);
   }
   _secureElement.endSHA256(cursor, size - bytes_read, digest);
