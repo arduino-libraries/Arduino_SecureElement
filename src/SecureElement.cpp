@@ -185,6 +185,7 @@ int SecureElement::readCert(ECP256Certificate & cert, const int certSlot)
   return 1;
 }
 
+
 int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
 {
 #if defined(BOARD_HAS_SE050)
