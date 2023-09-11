@@ -66,7 +66,7 @@ public:
 
   int writeCert(ECP256Certificate & cert, const int certSlot);
   int readCert(ECP256Certificate & cert, const int certSlot);
-  
+
   inline long random(long min, long max) { return this->_secureElement.random(min, max); };
   inline long random(long max) { return this->_secureElement.random(max); };
 private:

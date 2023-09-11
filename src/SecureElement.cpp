@@ -54,25 +54,21 @@ int SecureElement::buildCSR(ECP256Certificate & cert, const int keySlot, bool ne
 
   if (newPrivateKey) {
     if (!_secureElement.generatePrivateKey(keySlot, publicKey)) {
-      Serial.println("Error1");
       return 0;
     }
   } else {
     if (!_secureElement.generatePublicKey(keySlot, publicKey)) {
-            Serial.println("Error2");
       return 0;
     }
   }
 
   /* Store public key in csr */
   if (!cert.setPublicKey(publicKey, ECP256_CERT_PUBLIC_KEY_LENGTH)) {
-      Serial.println("Error3");
     return 0;
   }
   
   /* Build CSR */
   if (!cert.buildCSR()) {
-        Serial.println("Error4");
     return 0;
   }
 
@@ -81,7 +77,6 @@ int SecureElement::buildCSR(ECP256Certificate & cert, const int keySlot, bool ne
   this->SHA256(cert.bytes(), cert.length(), sha256buf);
 
   if (!_secureElement.ecSign(keySlot, sha256buf, signature)) {
-        Serial.println("Error5");
     return 0;
   }
 
@@ -147,9 +142,10 @@ int SecureElement::readCert(ECP256Certificate & cert, const int certSlot)
 
   cert.begin();
 
-  if (!readDeviceId(deviceId, int::DeviceId)) {
-    return 0;
-  }
+  /* To do certificate is splitted into multiple slots */
+  //if (!readDeviceId(deviceId, 0)) {
+  //  return 0;
+  //}
 
   if (!_secureElement.readSlot(certSlot, cert.compressedCertSignatureAndDatesBytes(), cert.compressedCertSignatureAndDatesLength())) {
     return 0;
@@ -185,18 +181,20 @@ int SecureElement::readCert(ECP256Certificate & cert, const int certSlot)
   return 1;
 }
 
-
 int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
 {
-#if defined(BOARD_HAS_SE050)
-  size_t outLen;
-  _secureElement.SHA256(buffer, size, digest, 32, &outLen);
-#else
   _secureElement.beginSHA256();
-  
-  unit8_t * cursor = buffer;
+  uint8_t * cursor = (uint8_t*)buffer;
   uint32_t bytes_read = 0;
-  for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64;) {
+#if defined(BOARD_HAS_SE050)
+  size_t outLen = 32;
+  for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64) {
+    _secureElement.updateSHA256(cursor, 64);
+  }
+  _secureElement.updateSHA256(cursor, size - bytes_read);
+  _secureElement.endSHA256(digest, &outLen);
+#else
+  for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64) {
     _secureElement.updateSHA256(cursor);
   }
   _secureElement.endSHA256(cursor, size - bytes_read, digest);
