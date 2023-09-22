@@ -82,7 +82,7 @@ public:
 #endif
 
   int writeCert(ECP256Certificate & cert, const int certSlot);
-  int readCert(ECP256Certificate & cert, const int certSlot);
+  int readCert(ECP256Certificate & cert, const int certSlot, const int keySlot = 0);
 
 private:
 #if defined(BOARD_HAS_SE050)

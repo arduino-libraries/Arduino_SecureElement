@@ -55,11 +55,15 @@ int SecureElement::writeCert(ECP256Certificate & cert, const int certSlot)
   if (!_secureElement.writeSlot(certSlot + 1, cert.compressedCertSerialAndAuthorityKeyIdBytes(), cert.compressedCertSerialAndAuthorityKeyIdLenght())) {
     return 0;
   }
+
+  if (!_secureElement.writeSlot(certSlot + 2, cert.subjectCommonNameBytes(), cert.subjectCommonNameLenght())) {
+    return 0;
+  }
 #endif
   return 1;
 }
 
-int SecureElement::readCert(ECP256Certificate & cert, const int certSlot)
+int SecureElement::readCert(ECP256Certificate & cert, const int certSlot, const int keySlot)
 {
 #if defined(BOARD_HAS_SE050)
   byte derBuffer[SE_CERT_BUFFER_LENGTH];
@@ -72,15 +76,10 @@ int SecureElement::readCert(ECP256Certificate & cert, const int certSlot)
     return 0;
   }
 #else
-  String deviceId;
+  String deviceId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   byte publicKey[ECP256_CERT_PUBLIC_KEY_LENGTH];
 
   cert.begin();
-
-  /* To do certificate is splitted into multiple slots */
-  //if (!readDeviceId(deviceId, 0)) {
-  //  return 0;
-  //}
 
   if (!_secureElement.readSlot(certSlot, cert.compressedCertSignatureAndDatesBytes(), cert.compressedCertSignatureAndDatesLength())) {
     return 0;
@@ -90,8 +89,11 @@ int SecureElement::readCert(ECP256Certificate & cert, const int certSlot)
     return 0;
   }
 
-  /* TODO check key slot */
-  if (!_secureElement.generatePublicKey(0, publicKey)) {
+  if (!_secureElement.readSlot(certSlot + 2, (byte*)deviceId.begin(), deviceId.length())) {
+    return 0;
+  }
+
+  if (!_secureElement.generatePublicKey(keySlot, publicKey)) {
     return 0;
   }
 
