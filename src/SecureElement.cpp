@@ -41,65 +41,6 @@ SecureElement::SecureElement()
  * PUBLIC MEMBER FUNCTIONS
  ******************************************************************************/
 
-int SecureElement::buildCSR(ECP256Certificate & cert, const int keySlot, bool newPrivateKey)
-{
-  byte publicKey[ECP256_CERT_PUBLIC_KEY_LENGTH];
-  byte signature[ECP256_CERT_SIGNATURE_LENGTH];
-
-  if (newPrivateKey) {
-    if (!_secureElement.generatePrivateKey(keySlot, publicKey)) {
-      return 0;
-    }
-  } else {
-    if (!_secureElement.generatePublicKey(keySlot, publicKey)) {
-      return 0;
-    }
-  }
-
-  /* Store public key in csr */
-  if (!cert.setPublicKey(publicKey, ECP256_CERT_PUBLIC_KEY_LENGTH)) {
-    return 0;
-  }
-  
-  /* Build CSR */
-  if (!cert.buildCSR()) {
-    return 0;
-  }
-
-  /* compute CSR SHA256 */
-  byte sha256buf[SE_SHA256_BUFFER_LENGTH];
-  this->SHA256(cert.bytes(), cert.length(), sha256buf);
-
-  if (!_secureElement.ecSign(keySlot, sha256buf, signature)) {
-    return 0;
-  }
-
-  /* sign CSR */
-  return cert.signCSR(signature);
-}
-
-int SecureElement::buildCert(ECP256Certificate & cert, const int keySlot)
-{
-  byte publicKey[ECP256_CERT_PUBLIC_KEY_LENGTH];
-
-  if (!_secureElement.generatePublicKey(keySlot, publicKey)) {
-    return 0;
-  }
-
-  /* Store public key in csr */
-  if (!cert.setPublicKey(publicKey, ECP256_CERT_PUBLIC_KEY_LENGTH)) {
-    return 0;
-  }
-
-  /* Build CSR */
-  if (!cert.buildCert()) {
-    return 0;
-  }
-
-  /* sign CSR */
-  return cert.signCert();
-}
-
 int SecureElement::writeCert(ECP256Certificate & cert, const int certSlot)
 {
 #if defined(BOARD_HAS_SE050)

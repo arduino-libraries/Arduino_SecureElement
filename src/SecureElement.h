@@ -81,9 +81,6 @@ public:
   inline int writeConfiguration(const byte config[] = nullptr) { return _secureElement.writeConfiguration(config); }
 #endif
 
-  int buildCSR(ECP256Certificate & cert, const int keySlot, bool newPrivateKey);
-  int buildCert(ECP256Certificate & cert, const int keySlot);
-
   int writeCert(ECP256Certificate & cert, const int certSlot);
   int readCert(ECP256Certificate & cert, const int certSlot);
 
