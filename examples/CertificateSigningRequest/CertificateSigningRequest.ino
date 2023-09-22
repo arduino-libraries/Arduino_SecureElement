@@ -27,6 +27,7 @@
 */
 
 #include <Arduino_SecureElement.h>
+#include <utility/SElementCSR.h>
 
 
 void setup() {
@@ -36,18 +37,18 @@ void setup() {
   SecureElement secureElement;
 
   if (!secureElement.begin()) {
-    Serial.println("No ECCX08 present!");
+    Serial.println("No SecureElement present!");
     while (1);
   }
 
   String serialNumber = secureElement.serialNumber();
 
-  Serial.print("ECCX08 Serial Number = ");
+  Serial.print("SecureElement Serial Number = ");
   Serial.println(serialNumber);
   Serial.println();
 
   if (!secureElement.locked()) {
-    String lock = promptAndReadLine("The ECCX08 on your board is not locked, would you like to PERMANENTLY configure and lock it now? (y/N)", "N");
+    String lock = promptAndReadLine("The SecureElement on your board is not locked, would you like to PERMANENTLY configure and lock it now? (y/N)", "N");
     lock.toLowerCase();
 
     if (!lock.startsWith("y")) {
@@ -56,16 +57,16 @@ void setup() {
     }
 
     if (!secureElement.writeConfiguration()) {
-      Serial.println("Writing ECCX08 configuration failed!");
+      Serial.println("Writing SecureElement configuration failed!");
       while (1);
     }
 
     if (!secureElement.lock()) {
-      Serial.println("Locking ECCX08 configuration failed!");
+      Serial.println("Locking SecureElement configuration failed!");
       while (1);
     }
 
-    Serial.println("ECCX08 locked successfully");
+    Serial.println("SecureElement locked successfully");
     Serial.println();
   }
 
@@ -95,7 +96,7 @@ void setup() {
   CSR.setSubjectOrganizationalUnitName(organizationalUnit);
   CSR.setSubjectCommonName(common);
 
-  if (!secureElement.buildCSR(CSR, slot.toInt(), generateNewKey.startsWith("y"))) {
+  if (!SElementCSR::build(secureElement, CSR, slot.toInt(), generateNewKey.startsWith("y"))) {
     Serial.println("Error starting CSR generation!");
     while (1);
   }
