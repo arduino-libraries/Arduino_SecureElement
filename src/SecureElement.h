@@ -55,17 +55,31 @@ public:
   SecureElement();
 
   inline int begin() { return _secureElement.begin(); }
+  inline void end() { return _secureElement.end(); }
+
+  inline String serialNumber() { return _secureElement.serialNumber(); }
+
+  inline long random(long min, long max) { return this->_secureElement.random(min, max); };
+  inline long random(long max) { return this->_secureElement.random(max); };
+
+  inline int generatePrivateKey(int slot, byte publicKey[]) { return _secureElement.generatePrivateKey(slot, publicKey); };
+  inline int generatePublicKey(int slot, byte publicKey[]) { return _secureElement.generatePublicKey(slot, publicKey); };
+
+  inline int ecdsaVerify(const byte message[], const byte signature[], const byte pubkey[]) { return _secureElement.ecdsaVerify(message, signature, pubkey); };
+  inline int ecSign(int slot, const byte message[], byte signature[]) { return _secureElement.ecSign(slot, message, signature); };
+
+  int SHA256(const uint8_t *buffer, size_t size, uint8_t *digest);
+
+  inline int readSlot(int slot, byte data[], int length) { return _secureElement.readSlot(slot, data, length); };
+  inline int writeSlot(int slot, const byte data[], int length) { return _secureElement.writeSlot(slot, data, length); };
+
   inline int locked() { return _secureElement.locked(); }
+  inline int lock() { return _secureElement.lock(); }
 #if defined(BOARD_HAS_ECCX08)
   inline int writeConfiguration(const byte config[] = ECCX08_DEFAULT_TLS_CONFIG) { return _secureElement.writeConfiguration(config); }
 #else
   inline int writeConfiguration(const byte config[] = nullptr) { return _secureElement.writeConfiguration(config); }
 #endif
-  inline int lock() { return _secureElement.lock(); }
-
-  inline String serialNumber() { return _secureElement.serialNumber(); }
-
-  int SHA256(const uint8_t *buffer, size_t size, uint8_t *digest);
 
   int buildCSR(ECP256Certificate & cert, const int keySlot, bool newPrivateKey);
   int buildCert(ECP256Certificate & cert, const int keySlot);
@@ -73,8 +87,6 @@ public:
   int writeCert(ECP256Certificate & cert, const int certSlot);
   int readCert(ECP256Certificate & cert, const int certSlot);
 
-  inline long random(long min, long max) { return this->_secureElement.random(min, max); };
-  inline long random(long max) { return this->_secureElement.random(max); };
 private:
 #if defined(BOARD_HAS_SE050)
   SE05XClass & _secureElement;
