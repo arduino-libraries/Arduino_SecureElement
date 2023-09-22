@@ -1,14 +1,13 @@
 /*
   secureElement Random Number
 
-  This sketch uses the ECC508 or ECC608 to generate a random number 
+  This sketch uses the ECC508/ECC608 or SE050 to generate a random number
   every second and print it to the Serial Monitor
 
   Circuit:
-   - MKR board with ECC508 or ECC608 on board
+   - A board equipped with ECC508 or ECC608 or SE050 chip
 
-  created 19 July 2018
-  by Sandeep Mistry
+  This example code is in the public domain.
 */
 
 #include <Arduino_SecureElement.h>
