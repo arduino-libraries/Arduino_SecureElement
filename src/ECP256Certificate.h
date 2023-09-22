@@ -87,6 +87,9 @@ public:
   inline int compressedCertSerialAndAuthorityKeyIdLenght() {return ECP256_CERT_SERIAL_NUMBER_LENGTH + ECP256_CERT_AUTHORITY_KEY_ID_LENGTH; }
 #endif
 
+  inline byte* subjectCommonNameBytes() { return (byte*)_subjectData.commonName.begin(); }
+  inline int subjectCommonNameLenght() {return _subjectData.commonName.length(); }
+
   /* Build CSR */
   int buildCSR();
   int signCSR(byte signature[]);
