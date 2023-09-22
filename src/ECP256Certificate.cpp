@@ -113,7 +113,7 @@ ECP256Certificate::~ECP256Certificate()
 
 int ECP256Certificate::begin()
 {
-  memset(_compressedCert.data, 0x00, ECP256_CERT_COMPRESSED_CERT_LENGTH);
+  memset(_compressedCert.data, 0x00, sizeof(CompressedCertDataUType));
   return 1;
 }
 
