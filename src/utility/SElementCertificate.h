@@ -8,8 +8,8 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
-#ifndef SECURE_ELEMENT_SSC_H_
-#define SECURE_ELEMENT_SSC_H_
+#ifndef SECURE_ELEMENT_CERTIFICATE_H_
+#define SECURE_ELEMENT_CERTIFICATE_H_
 
 /******************************************************************************
  * INCLUDE
@@ -29,4 +29,4 @@ public:
 
 };
 
-#endif /* SECURE_ELEMENT_SSC_H_ */
+#endif /* SECURE_ELEMENT_CERTIFICATE_H_ */
