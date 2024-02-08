@@ -19,8 +19,14 @@ int SElementCertificate::build(SecureElement & se, ECP256Certificate & cert, con
   byte publicKey[ECP256_CERT_PUBLIC_KEY_LENGTH];
   byte signature[ECP256_CERT_SIGNATURE_LENGTH];
 
-  if (!se.generatePublicKey(keySlot, publicKey)) {
-    return 0;
+  if(newPrivateKey) {
+    if (!se.generatePrivateKey(keySlot, publicKey)) {
+      return 0;
+    }
+  } else {
+    if (!se.generatePublicKey(keySlot, publicKey)) {
+      return 0;
+    }
   }
 
   /* Store public key in Certificate */
