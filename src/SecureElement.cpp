@@ -115,6 +115,9 @@ int SecureElement::readCert(ECP256Certificate & cert, const int certSlot, const 
 
 int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
 {
+#if defined(SECURE_ELEMENT_IS_SOFTSE)
+  _secureElement.SHA256(buffer, size, digest);
+#else
   _secureElement.beginSHA256();
   uint8_t * cursor = (uint8_t*)buffer;
   uint32_t bytes_read = 0;
@@ -130,6 +133,7 @@ int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
     _secureElement.updateSHA256(cursor);
   }
   _secureElement.endSHA256(cursor, size - bytes_read, digest);
+#endif
 #endif
 }
 
