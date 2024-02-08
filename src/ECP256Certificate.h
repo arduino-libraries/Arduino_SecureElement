@@ -68,7 +68,7 @@ public:
   inline byte* bytes() { return _certBuffer; }
   inline int length() { return _certBufferLen; }
 
-#if defined(BOARD_HAS_ECCX08)
+#if defined(SECURE_ELEMENT_IS_ECCX08)
   /* Get Data to create ECCX08 compressed cert */
   inline byte* compressedCertBytes() { return _compressedCert.data; }
   inline int compressedCertLenght() {return ECP256_CERT_COMPRESSED_CERT_LENGTH; }

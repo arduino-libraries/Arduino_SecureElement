@@ -17,11 +17,15 @@
   defined(ARDUINO_SAMD_MKRNB1500)   || defined(ARDUINO_PORTENTA_H7_M7)  ||   \
   defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_OPTA) || \
   defined(ARDUINO_GIGA)
-  #define BOARD_HAS_ECCX08
+  #define SECURE_ELEMENT_IS_ECCX08
 #endif
 
 #if defined(ARDUINO_NICLA_VISION) || defined(ARDUINO_PORTENTA_C33)
-  #define BOARD_HAS_SE050
+  #define SECURE_ELEMENT_IS_SE050
+#endif
+
+#if defined(ARDUINO_UNOR4_WIFI)
+  #define SECURE_ELEMENT_IS_SOFTSE
 #endif
 
 #endif /* SECURE_ELEMENT_CONFIG_H_ */

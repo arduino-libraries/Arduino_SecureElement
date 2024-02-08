@@ -18,11 +18,13 @@
 #include <Arduino.h>
 #include <SecureElementConfig.h>
 
-#if defined(BOARD_HAS_ECCX08)
+#if defined(SECURE_ELEMENT_IS_ECCX08)
   #include <ECCX08.h>
-  #include <ECCX08DefaultTLSConfig.h>
-#elif defined(BOARD_HAS_SE050)
+  #include <utility/ECCX08DefaultTLSConfig.h>
+#elif defined(SECURE_ELEMENT_IS_SE050)
   #include <SE05X.h>
+#elif defined(SECURE_ELEMENT_IS_SOFTSE)
+  #include <SoftwareATSE.h>
 #else
   #error "Board not supported"
 #endif
@@ -66,20 +68,21 @@ public:
 
   inline int locked() { return _secureElement.locked(); }
   inline int lock() { return _secureElement.lock(); }
-#if defined(BOARD_HAS_ECCX08)
+#if defined(SECURE_ELEMENT_IS_ECCX08)
   inline int writeConfiguration(const byte config[] = ECCX08_DEFAULT_TLS_CONFIG) { return _secureElement.writeConfiguration(config); }
 #else
   inline int writeConfiguration(const byte config[] = nullptr) { return _secureElement.writeConfiguration(config); }
 #endif
 
-  int writeCert(ECP256Certificate & cert, const int certSlot);
-  int readCert(ECP256Certificate & cert, const int certSlot, const int keySlot = 0);
-
 private:
-#if defined(BOARD_HAS_SE050)
+#if defined(SECURE_ELEMENT_IS_SE050)
   SE05XClass & _secureElement;
-#else
+#elif defined(SECURE_ELEMENT_IS_ECCX08)
   ECCX08Class & _secureElement;
+#elif defined(SECURE_ELEMENT_IS_SOFTSE)
+  SoftwareATSEClass & _secureElement;
+#else
+
 #endif
 
 };
