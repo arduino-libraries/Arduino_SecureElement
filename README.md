@@ -5,7 +5,7 @@ Arduino_SecureElement
 [![Arduino Lint](https://github.com/arduino-libraries/Arduino_SecureElement/workflows/Arduino%20Lint/badge.svg)](https://github.com/arduino-libraries/Arduino_SecureElement/actions?workflow=Arduino+Lint)
 [![Spell Check](https://github.com/arduino-libraries/Arduino_SecureElement/workflows/Spell%20Check/badge.svg)](https://github.com/arduino-libraries/Arduino_SecureElement/actions?workflow=Spell+Check)
 
-This library allows usage of Arduino boards secure elements in a common and unifyed way.
+This library allows usage of Arduino boards secure elements in a common and unified way.
 
 ## :chains: Dependencies
 
