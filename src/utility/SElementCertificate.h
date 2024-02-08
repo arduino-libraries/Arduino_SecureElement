@@ -25,7 +25,7 @@ class SElementCertificate
 {
 public:
 
-  static int build(SecureElement & se, ECP256Certificate & cert, const int keySlot, bool newPrivateKey = true, bool selfSign = false);
+  static int build(SecureElement & se, ECP256Certificate & cert, const int keySlot, bool newPrivateKey = false, bool selfSign = false);
 
 };
 
