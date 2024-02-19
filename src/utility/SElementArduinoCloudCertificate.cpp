@@ -46,8 +46,6 @@ int SElementArduinoCloudCertificate::read(SecureElement & se, ECP256Certificate 
   }
 
   derLen = (derBuffer[2] << 8 | derBuffer[3]) + 4;
-  Serial.print("derLen:");
-  Serial.println(derLen);
   if (!cert.importCert(derBuffer, derLen)) {
     return 0;
   }
