@@ -39,7 +39,7 @@ SecureElement::SecureElement()
 int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
 {
 #if defined(SECURE_ELEMENT_IS_SOFTSE)
-  _secureElement.SHA256(buffer, size, digest);
+  return _secureElement.SHA256(buffer, size, digest);
 #else
   _secureElement.beginSHA256();
   uint8_t * cursor = (uint8_t*)buffer;
@@ -50,12 +50,12 @@ int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
     _secureElement.updateSHA256(cursor, 64);
   }
   _secureElement.updateSHA256(cursor, size - bytes_read);
-  _secureElement.endSHA256(digest, &outLen);
+  return _secureElement.endSHA256(digest, &outLen);
 #else
   for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64) {
     _secureElement.updateSHA256(cursor);
   }
-  _secureElement.endSHA256(cursor, size - bytes_read, digest);
+  return _secureElement.endSHA256(cursor, size - bytes_read, digest);
 #endif
 #endif
 }
