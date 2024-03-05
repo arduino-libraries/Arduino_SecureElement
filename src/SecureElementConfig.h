@@ -12,12 +12,18 @@
 #define SECURE_ELEMENT_CONFIG_H_
 
 #if defined(ARDUINO_AVR_UNO_WIFI_REV2) || \
-  defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_NANO_33_IOT) ||  \ 
+  defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_NANO_33_IOT) ||  \
   defined(ARDUINO_SAMD_MKRGSM1400)  || defined(ARDUINO_SAMD_MKR1000) ||      \
   defined(ARDUINO_SAMD_MKRNB1500)   || defined(ARDUINO_PORTENTA_H7_M7)  ||   \
   defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_OPTA) || \
   defined(ARDUINO_GIGA)
   #define SECURE_ELEMENT_IS_ECCX08
+#endif
+
+/* Uncomment this if wyou want to use SE050 with Portenta H7*/
+#if defined(ARDUINO_PORTENTA_H7_M7)
+  #undef SECURE_ELEMENT_IS_ECCX08
+  #define SECURE_ELEMENT_IS_SE050
 #endif
 
 #if defined(ARDUINO_NICLA_VISION) || defined(ARDUINO_PORTENTA_C33)
