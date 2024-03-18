@@ -7,7 +7,7 @@
   https://github.com/arduino-libraries/ArduinoECCX08/blob/master/src/utility/ECCX08DefaultTLSConfig.h
 
   SE050 do not have EEPROM configuration and do not need to be locked
-  to work correctly. secureElement.locked() always return true for SE050
+  to work correctly. secureElement.locked() always returns true for SE050
   and the sketch does nothing.
 
   The circuit:
