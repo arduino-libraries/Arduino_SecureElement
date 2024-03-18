@@ -4,7 +4,7 @@
   This sketch can be used to generate a CSR for a private key
   generated in an ECC508/ECC608 or SE050 crypto chip slot.
 
-  If the ECC508/ECC608 is not configured and locked it prompts
+  If the SecureElement is not configured and locked it prompts
   the user to configure and lock the chip with a default TLS
   configuration.
 
