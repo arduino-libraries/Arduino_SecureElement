@@ -4,6 +4,10 @@
   This sketch uses the ECC508/ECC608 or SE050 to generate a random number
   every second and print it to the Serial Monitor
 
+  If the SecureElement is not configured and locked the ConfigurationLocking
+  example should be used before running this sketch to setup the chip with a
+  default TLS configuration.
+
   Circuit:
    - A board equipped with ECC508 or ECC608 or SE050 chip
 
@@ -35,4 +39,3 @@ void loop() {
 
   delay(1000);
 }
-
