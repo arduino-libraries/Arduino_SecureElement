@@ -1,8 +1,12 @@
 /*
-  secureElement Random Number
+  SecureElement Random Number
 
   This sketch uses the ECC508/ECC608 or SE050 to generate a random number
   every second and print it to the Serial Monitor
+
+  If the SecureElement is not configured and locked the ConfigurationLocking
+  example should be used before running this sketch to setup the chip with a
+  default TLS configuration.
 
   Circuit:
    - A board equipped with ECC508 or ECC608 or SE050 chip
@@ -19,12 +23,12 @@ void setup() {
   while (!Serial);
 
   if (!secureElement.begin()) {
-    Serial.println("Failed to communicate with ECC508/ECC608!");
+    Serial.println("Failed to communicate with SecureElement!");
     while (1);
   }
 
   if (!secureElement.locked()) {
-    Serial.println("The ECC508/ECC608 is not locked!");
+    Serial.println("The SecureElement is not locked!");
     while (1);
   }
 }
@@ -35,4 +39,3 @@ void loop() {
 
   delay(1000);
 }
-
