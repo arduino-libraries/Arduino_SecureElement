@@ -39,6 +39,7 @@ int SElementArduinoCloudCertificate::write(SecureElement & se, ECP256Certificate
 int SElementArduinoCloudCertificate::read(SecureElement & se, ECP256Certificate & cert, const SElementArduinoCloudSlot certSlot, const SElementArduinoCloudSlot keySlot)
 {
 #if defined(SECURE_ELEMENT_IS_SE050) || defined(SECURE_ELEMENT_IS_SOFTSE)
+  (void)keySlot;
   byte derBuffer[SE_CERT_BUFFER_LENGTH];
   size_t derLen;
   if (!se.readSlot(static_cast<int>(certSlot), derBuffer, sizeof(derBuffer))) {
