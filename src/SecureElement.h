@@ -21,6 +21,8 @@
 #if defined(SECURE_ELEMENT_IS_ECCX08)
   #include <ECCX08.h>
   #include <utility/ECCX08DefaultTLSConfig.h>
+#elif defined(SECURE_ELEMENT_IS_SE050) && defined(ARDUINO_PORTENTA_H7_M7)
+  #include <PortentaH7_SE05X.h>
 #elif defined(SECURE_ELEMENT_IS_SE050)
   #include <SE05X.h>
 #elif defined(SECURE_ELEMENT_IS_SOFTSE)

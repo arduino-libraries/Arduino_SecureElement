@@ -20,6 +20,12 @@
   #define SECURE_ELEMENT_IS_ECCX08
 #endif
 
+/* Uncomment this if wyou want to use SE050 with Portenta H7*/
+#if defined(ARDUINO_PORTENTA_H7_M7)
+  #undef SECURE_ELEMENT_IS_ECCX08
+  #define SECURE_ELEMENT_IS_SE050
+#endif
+
 #if defined(ARDUINO_NICLA_VISION) || defined(ARDUINO_PORTENTA_C33)
   #define SECURE_ELEMENT_IS_SE050
 #endif
