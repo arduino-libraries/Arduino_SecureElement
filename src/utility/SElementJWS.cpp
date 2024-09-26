@@ -13,6 +13,7 @@
  ******************************************************************************/
 
 #include <utility/SElementJWS.h>
+#include <ArduinoECCX08.h>
 #include <utility/ASN1Utils.h>
 #include <utility/PEMUtils.h>
 
