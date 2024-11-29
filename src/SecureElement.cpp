@@ -60,3 +60,20 @@ int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
 #endif
 }
 
+int SecureElement::serialNumber(byte sn[], size_t length)
+{
+#if defined(SECURE_ELEMENT_IS_SE050)
+  return _secureElement.serialNumber(sn, length);
+#else
+  if (sn == nullptr || length < SE_SN_LENGTH) {
+    return 0;
+  }
+  uint8_t tmp[12];
+  if (!_secureElement.serialNumber(tmp)) {
+    return 0;
+  }
+  memcpy(sn, tmp, SE_SN_LENGTH);
+  return 1;
+#endif
+}
+
