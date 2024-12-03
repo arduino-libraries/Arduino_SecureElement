@@ -44,6 +44,9 @@ jobs:
           - fqbn: "arduino:samd:nano_33_iot"
             artifact-name-suffix: arduino-samd-nano_33_iot
             platform-name: arduino:samd
+          - fqbn: arduino:samd:mkrwan1300
+            artifact-name-suffix: arduino-samd-mkrwan1300
+            platform-name: arduino:samd
           - fqbn: "arduino:samd:mkrgsm1400"
             artifact-name-suffix: arduino-samd-mkrgsm1400
             platform-name: arduino:samd
