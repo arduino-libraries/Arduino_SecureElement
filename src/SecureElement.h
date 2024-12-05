@@ -50,6 +50,7 @@ public:
   inline int begin() { return _secureElement.begin(); }
   inline void end() { return _secureElement.end(); }
 
+  inline int serialNumber(byte sn[]) { return _secureElement.serialNumber(sn); }
   inline String serialNumber() { return _secureElement.serialNumber(); }
 
   inline long random(long min, long max) { return this->_secureElement.random(min, max); };
