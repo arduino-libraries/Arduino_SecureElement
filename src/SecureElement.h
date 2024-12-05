@@ -37,6 +37,14 @@
 #define SE_SHA256_BUFFER_LENGTH  32
 #define SE_CERT_BUFFER_LENGTH  1024
 
+#if defined(SECURE_ELEMENT_IS_SE050)
+  #define SE_SN_LENGTH SE05X_SN_LENGTH
+#elif defined(SECURE_ELEMENT_IS_ECCX08)
+  #define SE_SN_LENGTH 9
+#elif defined(SECURE_ELEMENT_IS_SOFTSE)
+  #define SE_SN_LENGTH 6
+#endif
+
 /******************************************************************************
  * CLASS DECLARATION
  ******************************************************************************/
@@ -52,6 +60,7 @@ public:
 
   inline int serialNumber(byte sn[]) { return _secureElement.serialNumber(sn); }
   inline String serialNumber() { return _secureElement.serialNumber(); }
+  int serialNumber(byte sn[], size_t length);
 
   inline long random(long min, long max) { return this->_secureElement.random(min, max); };
   inline long random(long max) { return this->_secureElement.random(max); };
