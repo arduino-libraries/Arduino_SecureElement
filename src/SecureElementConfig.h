@@ -29,4 +29,30 @@
   #define SECURE_ELEMENT_IS_SOFTSE
 #endif
 
+#if defined __has_include
+  #if __has_include (<Arduino_DebugUtils.h>)
+    #include <Arduino_DebugUtils.h>
+  #endif
+#endif
+
+#ifndef DEBUG_ERROR
+  #define DEBUG_ERROR(fmt, ...)
+#endif
+
+#ifndef DEBUG_WARNING
+  #define DEBUG_WARNING(fmt, ...)
+#endif
+
+#ifndef DEBUG_INFO
+  #define DEBUG_INFO(fmt, ...)
+#endif
+
+#ifndef DEBUG_DEBUG
+  #define DEBUG_DEBUG(fmt, ...)
+#endif
+
+#ifndef DEBUG_VERBOSE
+  #define DEBUG_VERBOSE(fmt, ...)
+#endif
+
 #endif /* SECURE_ELEMENT_CONFIG_H_ */
