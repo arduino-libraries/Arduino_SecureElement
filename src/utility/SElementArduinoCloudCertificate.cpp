@@ -117,6 +117,25 @@ int SElementArduinoCloudCertificate::read(SecureElement & se, ECP256Certificate 
   return 1;
 }
 
+int SElementArduinoCloudCertificate::isAuthorityKeyIdDifferent(const ECP256Certificate & cert, const String & authorityKeyIdentifier)
+{
+  byte authorityKeyIdentifierBytes[ECP256_CERT_AUTHORITY_KEY_ID_LENGTH];
+
+  if (authorityKeyIdentifier.length() == 0 || cert.authorityKeyId() == nullptr) {
+    DEBUG_ERROR("SEACC::%s input params error.", __FUNCTION__);
+    return -1;
+  }
+
+  hexStringToBytes(authorityKeyIdentifier, authorityKeyIdentifierBytes, sizeof(authorityKeyIdentifierBytes));
+
+  /* If authorityKeyId are matching there is no need to rebuild*/
+  if (memcmp(authorityKeyIdentifierBytes, cert.authorityKeyId() , ECP256_CERT_AUTHORITY_KEY_ID_LENGTH) == 0) {
+    DEBUG_VERBOSE("SEACC::%s authorityKeyIdentifierBytes are equal", __FUNCTION__);
+    return 0;
+  }
+  return 1;
+}
+
 int SElementArduinoCloudCertificate::rebuild(SecureElement & se, ECP256Certificate & cert, const String & deviceId, const String & notBefore, const String & notAfter, const String & serialNumber, const String & authorityKeyIdentifier, const String & signature, const SElementArduinoCloudSlot keySlot)
 {
   byte serialNumberBytes[ECP256_CERT_SERIAL_NUMBER_LENGTH];
