@@ -35,6 +35,15 @@ static void hexStringToBytes(String in, byte out[], int length) {
 }
 
 /******************************************************************************
+ * STATIC MEMBER DEFINITIONS
+ ******************************************************************************/
+
+const char constexpr SElementArduinoCloudCertificate::SEACC_ISSUER_COUNTRY_NAME[];
+const char constexpr SElementArduinoCloudCertificate::SEACC_ISSUER_ORGANIZATION_NAME[];
+const char constexpr SElementArduinoCloudCertificate::SEACC_ISSUER_ORGANIZATIONAL_UNIT_NAME[];
+const char constexpr SElementArduinoCloudCertificate::SEACC_ISSUER_COMMON_NAME[];
+
+/******************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  ******************************************************************************/
 
@@ -97,10 +106,10 @@ int SElementArduinoCloudCertificate::read(SecureElement & se, ECP256Certificate 
   }
 
   cert.setSubjectCommonName(deviceId);
-  cert.setIssuerCountryName("US");
-  cert.setIssuerOrganizationName("Arduino LLC US");
-  cert.setIssuerOrganizationalUnitName("IT");
-  cert.setIssuerCommonName("Arduino");
+  cert.setIssuerCountryName(SEACC_ISSUER_COUNTRY_NAME);
+  cert.setIssuerOrganizationName(SEACC_ISSUER_ORGANIZATION_NAME);
+  cert.setIssuerOrganizationalUnitName(SEACC_ISSUER_ORGANIZATIONAL_UNIT_NAME);
+  cert.setIssuerCommonName(SEACC_ISSUER_COMMON_NAME);
 
   if (!cert.setPublicKey(publicKey, ECP256_CERT_PUBLIC_KEY_LENGTH)) {
     return 0;
@@ -157,10 +166,10 @@ int SElementArduinoCloudCertificate::rebuild(SecureElement & se, ECP256Certifica
   }
 
   cert.setSubjectCommonName(deviceId);
-  cert.setIssuerCountryName("US");
-  cert.setIssuerOrganizationName("Arduino LLC US");
-  cert.setIssuerOrganizationalUnitName("IT");
-  cert.setIssuerCommonName("Arduino");
+  cert.setIssuerCountryName(SEACC_ISSUER_COUNTRY_NAME);
+  cert.setIssuerOrganizationName(SEACC_ISSUER_ORGANIZATION_NAME);
+  cert.setIssuerOrganizationalUnitName(SEACC_ISSUER_ORGANIZATIONAL_UNIT_NAME);
+  cert.setIssuerCommonName(SEACC_ISSUER_COMMON_NAME);
   cert.setSignature(signatureBytes, sizeof(signatureBytes));
   cert.setAuthorityKeyId(authorityKeyIdentifierBytes, sizeof(authorityKeyIdentifierBytes));
   cert.setSerialNumber(serialNumberBytes, sizeof(serialNumberBytes));

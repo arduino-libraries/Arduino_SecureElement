@@ -34,6 +34,13 @@ public:
                     const String & authorityKeyIdentifier, const String & signature,
                     const SElementArduinoCloudSlot keySlot = SElementArduinoCloudSlot::Key);
 
+private:
+
+  static const char constexpr SEACC_ISSUER_COUNTRY_NAME[] = "US";
+  static const char constexpr SEACC_ISSUER_ORGANIZATION_NAME[] = "Arduino LLC US";
+  static const char constexpr SEACC_ISSUER_ORGANIZATIONAL_UNIT_NAME[] = "IT";
+  static const char constexpr SEACC_ISSUER_COMMON_NAME[] = "Arduino";
+
 };
 
 #endif /* SECURE_ELEMENT_ARDUINO_CLOUD_CERTIFICATE_H_ */
