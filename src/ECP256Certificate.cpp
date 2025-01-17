@@ -302,6 +302,16 @@ int ECP256Certificate::importCert(const byte certDER[], size_t derLen)
 
   memcpy(_certBuffer, certDER, _certBufferLen);
 
+  /* Import Authority Key Identifier to compressed cert struct */
+  if (!importCompressedAuthorityKeyIdentifier()) {
+    return 0;
+  }
+
+  /* Import signature to compressed cert struct */
+  if (!importCompressedSignature()) {
+    return 0;
+  }
+
   return 1;
 }
 
@@ -913,4 +923,73 @@ int ECP256Certificate::appendAuthorityKeyId(const byte authorityKeyId[], int len
   memcpy(out, authorityKeyId, length);
 
   return length + 17;
+}
+
+int ECP256Certificate::importCompressedAuthorityKeyIdentifier() {
+  static const byte objectId[] = {0x06, 0x03, 0x55, 0x1D, 0x23};
+  byte * result = nullptr;
+  void * ptr = memmem(_certBuffer, _certBufferLen, objectId, sizeof(objectId));
+  if (ptr != nullptr) {
+    result = (byte*)ptr;
+    result += 11;
+    memcpy(_compressedCert.slot.two.values.authorityKeyId, result, ECP256_CERT_AUTHORITY_KEY_ID_LENGTH);
+    return 1;
+  }
+  return 0;
+}
+
+int ECP256Certificate::importCompressedSignature() {
+  byte * result = nullptr;
+  byte paddingBytes = 0;
+  byte rLen = 0;
+  byte sLen = 0;
+
+  /* Search AuthorityKeyIdentifier */
+  static const byte KeyId[] = {0x06, 0x03, 0x55, 0x1D, 0x23};
+  void * ptr = memmem(_certBuffer, _certBufferLen, KeyId, sizeof(KeyId));
+  if(ptr == nullptr) {
+    return 0;
+  }
+  result = (byte*)ptr;
+
+  /* Search Algorithm identifier */
+  static const byte AlgId[] = {0x06, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x04, 0x03, 0x02};
+  ptr = memmem(result, _certBufferLen - (_certBuffer - result), AlgId, sizeof(AlgId));
+  if(ptr == nullptr) {
+    return 0;
+  }
+  result = (byte*)ptr;
+
+  /* Skip algorithm identifier */
+  result += sizeof(AlgId);
+
+  /* Search signature sequence */
+  if (result[0] == 0x03) {
+    /* Move to  the first element of R sequence skipping 0x03 0x49 0x00 0x30 0xXX*/
+    result += 5;
+    /* Check if value is padded */
+    if (result[0] == 0x02 && result[1] == 0x21 && result[2] == 0x00) {
+      paddingBytes = 1;
+    }
+    rLen = result[1] - paddingBytes;
+    /* Skip padding and ASN INTEGER sequence 0x02 0xXX */
+    result += (2 + paddingBytes);
+    /* Copy data to compressed slot */
+    memcpy(_compressedCert.slot.one.values.signature, result, rLen);
+    /* reset padding before importing S sequence */
+    paddingBytes = 0;
+    /* Move to the first element of S sequence skipping R values */
+    result += rLen;
+    /* Check if value is padded */
+    if (result[0] == 0x02 && result[1] == 0x21 && result[2] == 0x00) {
+      paddingBytes = 1;
+    }
+    sLen = result[1] - paddingBytes;
+    /* Skip padding and ASN INTEGER sequence 0x02 0xXX */
+    result += (2 + paddingBytes);
+    /* Copy data to compressed slot */
+    memcpy(&_compressedCert.slot.one.values.signature[rLen], result, sLen);
+    return 1;
+  }
+  return 0;
 }

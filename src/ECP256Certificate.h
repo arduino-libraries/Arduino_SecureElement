@@ -176,6 +176,9 @@ private:
   int appendEcdsaWithSHA256(byte out[]);
   int appendAuthorityKeyId(const byte authorityKeyId[], int length, byte out[]);
 
+  int importCompressedAuthorityKeyIdentifier();
+  int importCompressedSignature();
+
 };
 
 #endif /* ECP256_CERTIFICATE_H */
