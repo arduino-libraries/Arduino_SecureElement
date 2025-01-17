@@ -84,6 +84,9 @@ public:
   inline byte* subjectCommonNameBytes() { return (byte*)_subjectData.commonName.begin(); }
   inline int subjectCommonNameLenght() {return _subjectData.commonName.length(); }
 
+  inline const byte* authorityKeyIdentifierBytes() { return _compressedCert.slot.two.values.authorityKeyId; }
+  inline const byte* signatureBytes() { return _compressedCert.slot.one.values.signature; }
+
   /* Build CSR */
   int buildCSR();
   int signCSR(byte signature[]);
