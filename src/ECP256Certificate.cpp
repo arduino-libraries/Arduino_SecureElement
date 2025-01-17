@@ -397,17 +397,6 @@ int ECP256Certificate::setSignature(const byte* signature, int signatureLen) {
   return 0;
 }
 
-const byte * ECP256Certificate::authorityKeyId() const {
-  static const byte objectId[] = {0x06, 0x03, 0x55, 0x1D, 0x23};
-  byte * result = nullptr;
-  void * ptr = memmem(_certBuffer, _certBufferLen, objectId, sizeof(objectId));
-  if (ptr != nullptr) {
-    result = (byte*)ptr;
-    result += 11;
-  }
-  return result;
-}
-
 /******************************************************************************
  * PRIVATE MEMBER FUNCTIONS
  ******************************************************************************/

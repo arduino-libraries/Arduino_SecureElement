@@ -68,9 +68,6 @@ public:
   inline byte* bytes() { return _certBuffer; }
   inline int length() { return _certBufferLen; }
 
-  /* Parsing Helpers */
-  const byte * authorityKeyId() const;
-
 #if defined(SECURE_ELEMENT_IS_ECCX08)
   /* Get Data to create ECCX08 compressed cert */
   inline byte* compressedCertBytes() { return _compressedCert.data; }
