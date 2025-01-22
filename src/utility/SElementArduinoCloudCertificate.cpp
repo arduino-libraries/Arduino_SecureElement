@@ -145,7 +145,11 @@ int SElementArduinoCloudCertificate::signatureCompare(const byte * signatureA, c
   return 1;
 }
 
-int SElementArduinoCloudCertificate::rebuild(SecureElement & se, ECP256Certificate & cert, const String & deviceId, const String & notBefore, const String & notAfter, const String & serialNumber, const String & authorityKeyIdentifier, const String & signature, const SElementArduinoCloudSlot keySlot)
+int SElementArduinoCloudCertificate::rebuild(
+    SecureElement & se, ECP256Certificate & cert, const String & deviceId,
+    const String & notBefore, const String & notAfter, const String & serialNumber,
+    const String & authorityKeyIdentifier, const String & signature,
+    const SElementArduinoCloudSlot keySlot)
 {
   byte serialNumberBytes[ECP256_CERT_SERIAL_NUMBER_LENGTH];
   byte authorityKeyIdentifierBytes[ECP256_CERT_AUTHORITY_KEY_ID_LENGTH];
