@@ -964,6 +964,10 @@ int ECP256Certificate::importCompressedSignature() {
     rLen = result[1] - paddingBytes;
     /* Skip padding and ASN INTEGER sequence 0x02 0xXX */
     result += (2 + paddingBytes);
+    /* Check data length */
+    if (rLen != ECP256_CERT_SIGNATURE_R_LENGTH) {
+      return 0;
+    }
     /* Copy data to compressed slot */
     memcpy(_compressedCert.slot.one.values.signature, result, rLen);
     /* reset padding before importing S sequence */
@@ -977,6 +981,10 @@ int ECP256Certificate::importCompressedSignature() {
     sLen = result[1] - paddingBytes;
     /* Skip padding and ASN INTEGER sequence 0x02 0xXX */
     result += (2 + paddingBytes);
+    /* Check data length */
+    if (sLen != ECP256_CERT_SIGNATURE_S_LENGTH) {
+      return 0;
+    }
     /* Copy data to compressed slot */
     memcpy(&_compressedCert.slot.one.values.signature[rLen], result, sLen);
     return 1;
