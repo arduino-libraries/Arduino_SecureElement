@@ -22,10 +22,12 @@
 #define ECP256_CERT_SERIAL_NUMBER_LENGTH            16
 #define ECP256_CERT_AUTHORITY_KEY_ID_LENGTH         20
 #define ECP256_CERT_PUBLIC_KEY_LENGTH               64
-#define ECP256_CERT_SIGNATURE_LENGTH                64
+#define ECP256_CERT_SIGNATURE_R_LENGTH              32
+#define ECP256_CERT_SIGNATURE_S_LENGTH              ECP256_CERT_SIGNATURE_R_LENGTH
+#define ECP256_CERT_SIGNATURE_LENGTH                (ECP256_CERT_SIGNATURE_R_LENGTH + ECP256_CERT_SIGNATURE_S_LENGTH)
 #define ECP256_CERT_DATES_LENGTH                     3
 #define ECP256_CERT_COMPRESSED_CERT_SLOT_LENGTH     72
-#define ECP256_CERT_COMPRESSED_CERT_LENGTH         ECP256_CERT_COMPRESSED_CERT_SLOT_LENGTH + ECP256_CERT_SERIAL_NUMBER_LENGTH + ECP256_CERT_AUTHORITY_KEY_ID_LENGTH
+#define ECP256_CERT_COMPRESSED_CERT_LENGTH          (ECP256_CERT_COMPRESSED_CERT_SLOT_LENGTH + ECP256_CERT_SERIAL_NUMBER_LENGTH + ECP256_CERT_AUTHORITY_KEY_ID_LENGTH)
 
 #include <Arduino.h>
 
@@ -80,6 +82,9 @@ public:
 
   inline byte* subjectCommonNameBytes() { return (byte*)_subjectData.commonName.begin(); }
   inline int subjectCommonNameLenght() {return _subjectData.commonName.length(); }
+
+  inline const byte* authorityKeyIdentifierBytes() { return _compressedCert.slot.two.values.authorityKeyId; }
+  inline const byte* signatureBytes() { return _compressedCert.slot.one.values.signature; }
 
   /* Build CSR */
   int buildCSR();
@@ -172,6 +177,9 @@ private:
   int appendDate(int year, int month, int day, int hour, int minute, int second, byte out[]);
   int appendEcdsaWithSHA256(byte out[]);
   int appendAuthorityKeyId(const byte authorityKeyId[], int length, byte out[]);
+
+  int importCompressedAuthorityKeyIdentifier();
+  int importCompressedSignature();
 
 };
 
