@@ -34,6 +34,11 @@ int SElementArduinoCloudDeviceId::read(SecureElement & se, String & deviceId, co
     return 0;
   }
 
+  int chk;
+  if (sscanf(reinterpret_cast<char *>(device_id_bytes), "%4x%4x-%4x-%4x-%4x-%4x%4x%4x", &chk, &chk, &chk, &chk, &chk, &chk, &chk, &chk) != 8) {
+    return 0;
+  }
+
   deviceId = String(reinterpret_cast<char *>(device_id_bytes));
   return 1;
 }
