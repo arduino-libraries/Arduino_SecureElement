@@ -15,6 +15,7 @@
 /* This is needed for memmem */
 #define _GNU_SOURCE
 #include <string.h>
+#include <utility/SElementBase64.h>
 #include "ECP256Certificate.h"
 
 /******************************************************************************
@@ -28,58 +29,6 @@
 #define ASN1_PRINTABLE_STRING  0x13
 #define ASN1_SEQUENCE          0x30
 #define ASN1_SET               0x31
-
-/******************************************************************************
- * LOCAL MODULE FUNCTIONS
- ******************************************************************************/
-
-static String base64Encode(const byte in[], unsigned int length, const char* prefix, const char* suffix) {
-  static const char* CODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
-  int b;
-  String out;
-
-  int reserveLength = 4 * ((length + 2) / 3) + ((length / 3 * 4) / 76) + strlen(prefix) + strlen(suffix);
-  out.reserve(reserveLength);
-
-  if (prefix) {
-    out += prefix;
-  }
-
-  for (unsigned int i = 0; i < length; i += 3) {
-    if (i > 0 && (i / 3 * 4) % 76 == 0) {
-      out += '\n';
-    }
-
-    b = (in[i] & 0xFC) >> 2;
-    out += CODES[b];
-
-    b = (in[i] & 0x03) << 4;
-    if (i + 1 < length) {
-      b |= (in[i + 1] & 0xF0) >> 4;
-      out += CODES[b];
-      b = (in[i + 1] & 0x0F) << 2;
-      if (i + 2 < length) {
-        b |= (in[i + 2] & 0xC0) >> 6;
-        out += CODES[b];
-        b = in[i + 2] & 0x3F;
-        out += CODES[b];
-      } else {
-        out += CODES[b];
-        out += '=';
-      }
-    } else {
-      out += CODES[b];
-      out += "==";
-    }
-  }
-
-  if (suffix) {
-    out += suffix;
-  }
-
-  return out;
-}
 
 /******************************************************************************
  * CTOR/DTOR
@@ -184,7 +133,7 @@ int ECP256Certificate::signCSR(byte * signature)
 
 String ECP256Certificate::getCSRPEM()
 {
-  return base64Encode(_certBuffer, _certBufferLen, "-----BEGIN CERTIFICATE REQUEST-----\n", "\n-----END CERTIFICATE REQUEST-----\n");
+  return b64::encode(_certBuffer, _certBufferLen, "-----BEGIN CERTIFICATE REQUEST-----\n", "\n-----END CERTIFICATE REQUEST-----\n");
 }
 
 int ECP256Certificate::buildCert()
@@ -323,7 +272,7 @@ int ECP256Certificate::signCert()
 
 String ECP256Certificate::getCertPEM()
 {
-  return base64Encode(_certBuffer, _certBufferLen, "-----BEGIN CERTIFICATE-----\n", "\n-----END CERTIFICATE-----\n");
+  return b64::encode(_certBuffer, _certBufferLen, "-----BEGIN CERTIFICATE-----\n", "\n-----END CERTIFICATE-----\n");
 }
 
 void ECP256Certificate::getDateFromCompressedData(DateInfo& date) {

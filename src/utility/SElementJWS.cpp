@@ -13,48 +13,9 @@
  ******************************************************************************/
 
 #include <utility/SElementJWS.h>
+#include <utility/SElementBase64.h>
 #include <ArduinoECCX08.h>
 #include <utility/ASN1Utils.h>
-#include <utility/PEMUtils.h>
-
-static String base64urlEncode(const byte in[], unsigned int length)
-{
-  static const char* CODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=";
-
-  int b;
-  String out;
-
-  int reserveLength = 4 * ((length + 2) / 3);
-  out.reserve(reserveLength);
-
-  for (unsigned int i = 0; i < length; i += 3) {
-    b = (in[i] & 0xFC) >> 2;
-    out += CODES[b];
-
-    b = (in[i] & 0x03) << 4;
-    if (i + 1 < length) {
-      b |= (in[i + 1] & 0xF0) >> 4;
-      out += CODES[b];
-      b = (in[i + 1] & 0x0F) << 2;
-      if (i + 2 < length) {
-         b |= (in[i + 2] & 0xC0) >> 6;
-         out += CODES[b];
-         b = in[i + 2] & 0x3F;
-         out += CODES[b];
-      } else {
-        out += CODES[b];
-      }
-    } else {
-      out += CODES[b];
-    }
-  }
-
-  while (out.lastIndexOf('=') != -1) {
-    out.remove(out.length() - 1);
-  }
-
-  return out;
-}
 
 String SElementJWS::publicKey(SecureElement & se, int slot, bool newPrivateKey)
 {
@@ -79,7 +40,7 @@ String SElementJWS::publicKey(SecureElement & se, int slot, bool newPrivateKey)
 
   ASN1Utils.appendPublicKey(publicKey, out);
 
-  return PEMUtils.base64Encode(out, length, "-----BEGIN PUBLIC KEY-----\n", "\n-----END PUBLIC KEY-----\n");
+  return b64::encode(out, length, "-----BEGIN PUBLIC KEY-----\n", "\n-----END PUBLIC KEY-----\n");
 }
 
 String SElementJWS::sign(SecureElement & se, int slot, const char* header, const char* payload)
@@ -88,8 +49,8 @@ String SElementJWS::sign(SecureElement & se, int slot, const char* header, const
     return "";
   }
 
-  String encodedHeader = base64urlEncode((const byte*)header, strlen(header));
-  String encodedPayload = base64urlEncode((const byte*)payload, strlen(payload));
+  String encodedHeader = b64::urlEncode((const byte*)header, strlen(header));
+  String encodedPayload = b64::urlEncode((const byte*)payload, strlen(payload));
 
   String toSign;
   toSign.reserve(encodedHeader.length() + 1 + encodedPayload.length());
@@ -108,7 +69,7 @@ String SElementJWS::sign(SecureElement & se, int slot, const char* header, const
     return "";
   }
 
-  String encodedSignature = base64urlEncode(signature, sizeof(signature));
+  String encodedSignature = b64::urlEncode(signature, sizeof(signature));
 
   String result;
   result.reserve(toSign.length() + 1 + encodedSignature.length());
