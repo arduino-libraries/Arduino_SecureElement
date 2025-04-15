@@ -102,8 +102,6 @@ jobs:
             platforms: |
               # Install Arduino mbed_nano Boards via Boards Manager
               - name: arduino:mbed_nicla
-            libraries: |
-              - name: ArduinoECCX08
           - board:
               platform-name: arduino:mbed_opta
             platforms: |
@@ -123,15 +121,11 @@ jobs:
             platforms: |
               # Install Arduino renesas_portenta Boards via Boards Manager
               - name: arduino:renesas_portenta
-            libraries: |
-              - name: ArduinoECCX08
           - board:
               platform-name: arduino:renesas_uno
             platforms: |
               # Install Arduino renesas_uno Boards via Boards Manager
               - name: arduino:renesas_uno
-            libraries: |
-              - name: ArduinoECCX08
 
     steps:
       - name: Checkout

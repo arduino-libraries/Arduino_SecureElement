@@ -101,6 +101,11 @@ public:
   /* Import DER buffer into CertClass*/
   int importCert(const byte certDER[], size_t derLen);
 
+protected:
+
+  int publicKeyLength();
+  int appendPublicKey(const byte publicKey[], byte out[]);
+
 private:
 
   struct CertInfo {
@@ -154,7 +159,6 @@ private:
   int versionLength();
   int issuerOrSubjectLength(const CertInfo& issuerOrSubjectData);
   int sequenceHeaderLength(int length);
-  int publicKeyLength();
   int signatureLength(const byte signature[]);
   int serialNumberLength(const byte serialNumber[], int length);
   int authorityKeyIdLength(const byte authorityKeyId[], int length);
@@ -171,7 +175,6 @@ private:
   int appendVersion(int version, byte out[]);
   int appendName(const String& name, int type, byte out[]);
   int appendIssuerOrSubject(const CertInfo& issuerOrSubjectData, byte out[]);
-  int appendPublicKey(const byte publicKey[], byte out[]);
   int appendSignature(const byte signature[], byte out[]);
   int appendSerialNumber(const byte serialNumber[], int length, byte out[]);
   int appendDate(int year, int month, int day, int hour, int minute, int second, byte out[]);

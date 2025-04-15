@@ -21,7 +21,7 @@
  * CLASS DECLARATION
  ******************************************************************************/
 
-class SElementJWS
+class SElementJWS : public ECP256Certificate
 {
 public:
 

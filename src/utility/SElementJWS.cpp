@@ -14,8 +14,6 @@
 
 #include <utility/SElementJWS.h>
 #include <utility/SElementBase64.h>
-#include <ArduinoECCX08.h>
-#include <utility/ASN1Utils.h>
 
 String SElementJWS::publicKey(SecureElement & se, int slot, bool newPrivateKey)
 {
@@ -35,10 +33,10 @@ String SElementJWS::publicKey(SecureElement & se, int slot, bool newPrivateKey)
     }
   }
 
-  int length = ASN1Utils.publicKeyLength();
+  int length = publicKeyLength();
   byte out[length];
 
-  ASN1Utils.appendPublicKey(publicKey, out);
+  appendPublicKey(publicKey, out);
 
   return b64::encode(out, length, "-----BEGIN PUBLIC KEY-----\n", "\n-----END PUBLIC KEY-----\n");
 }
