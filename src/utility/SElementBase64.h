@@ -15,6 +15,6 @@
 namespace arduino { namespace b64 {
 
     String urlEncode(const byte in[], unsigned int length);
-    String encode(const byte in[], unsigned int length, const char* prefix, const char* suffix);
+    String pemEncode(const byte in[], unsigned int length, const char* prefix, const char* suffix);
 
 }} // arduino::b64

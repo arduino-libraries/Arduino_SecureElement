@@ -133,7 +133,7 @@ int ECP256Certificate::signCSR(byte * signature)
 
 String ECP256Certificate::getCSRPEM()
 {
-  return b64::encode(_certBuffer, _certBufferLen, "-----BEGIN CERTIFICATE REQUEST-----\n", "\n-----END CERTIFICATE REQUEST-----\n");
+  return b64::pemEncode(_certBuffer, _certBufferLen, "-----BEGIN CERTIFICATE REQUEST-----\n", "\n-----END CERTIFICATE REQUEST-----\n");
 }
 
 int ECP256Certificate::buildCert()
@@ -272,7 +272,7 @@ int ECP256Certificate::signCert()
 
 String ECP256Certificate::getCertPEM()
 {
-  return b64::encode(_certBuffer, _certBufferLen, "-----BEGIN CERTIFICATE-----\n", "\n-----END CERTIFICATE-----\n");
+  return b64::pemEncode(_certBuffer, _certBufferLen, "-----BEGIN CERTIFICATE-----\n", "\n-----END CERTIFICATE-----\n");
 }
 
 void ECP256Certificate::getDateFromCompressedData(DateInfo& date) {

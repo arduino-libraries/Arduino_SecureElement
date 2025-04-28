@@ -38,7 +38,7 @@ String SElementJWS::publicKey(SecureElement & se, int slot, bool newPrivateKey)
 
   appendPublicKey(publicKey, out);
 
-  return b64::encode(out, length, "-----BEGIN PUBLIC KEY-----\n", "\n-----END PUBLIC KEY-----\n");
+  return b64::pemEncode(out, length, "-----BEGIN PUBLIC KEY-----\n", "\n-----END PUBLIC KEY-----\n");
 }
 
 String SElementJWS::sign(SecureElement & se, int slot, const char* header, const char* payload)

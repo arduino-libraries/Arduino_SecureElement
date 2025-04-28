@@ -50,7 +50,7 @@ String urlEncode(const byte in[], unsigned int length) {
   return out;
 }
 
-String encode(const byte in[], unsigned int length, const char* prefix, const char* suffix) {
+String pemEncode(const byte in[], unsigned int length, const char* prefix, const char* suffix) {
 static const char* CODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
   int b;
