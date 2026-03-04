@@ -74,6 +74,16 @@ jobs:
           - fqbn: arduino:renesas_uno:unor4wifi
             artifact-name-suffix: arduino-renesas_uno-unor4wifi
             platform-name: arduino:renesas_uno
+          - fqbn: "arduino:zephyr_main:portentah7"
+            platform-name: arduino:zephyr_main
+            artifact-name-suffix: arduino-zephyr_main-portentah7
+          - fqbn: "arduino:zephyr_main:giga"
+            platform-name: arduino:zephyr_main
+            artifact-name-suffix: arduino-zephyr_main-giga
+          - fqbn: "arduino:zephyr_main:opta"
+            platform-name: arduino:zephyr_main
+            artifact-name-suffix: arduino-zephyr_main-opta
+
 
         include:
           - board:
@@ -126,6 +136,13 @@ jobs:
             platforms: |
               # Install Arduino renesas_uno Boards via Boards Manager
               - name: arduino:renesas_uno
+          - board:
+              platform-name: arduino:zephyr_main
+            platforms: |
+              # Install Arduino zephyr_main Boards via Boards Manager
+              - name: arduino:zephyr_main
+            libraries: |
+              - name: ArduinoECCX08
 
     steps:
       - name: Checkout
