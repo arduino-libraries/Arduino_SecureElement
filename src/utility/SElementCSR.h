@@ -25,7 +25,7 @@ class SElementCSR
 {
 public:
 
-  static int build(SecureElement & se, ECP256Certificate & cert, const int keySlot, bool newPrivateKey);
+  static int build(SecureElementClass & se, ECP256Certificate & cert, const int keySlot, bool newPrivateKey);
 
 };
 

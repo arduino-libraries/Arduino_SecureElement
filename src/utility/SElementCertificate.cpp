@@ -14,7 +14,7 @@
 
 #include <utility/SElementCertificate.h>
 
-int SElementCertificate::build(SecureElement & se, ECP256Certificate & cert, const int keySlot, bool newPrivateKey, bool selfSign)
+int SElementCertificate::build(SecureElementClass & se, ECP256Certificate & cert, const int keySlot, bool newPrivateKey, bool selfSign)
 {
   byte publicKey[ECP256_CERT_PUBLIC_KEY_LENGTH];
   byte signature[ECP256_CERT_SIGNATURE_LENGTH];

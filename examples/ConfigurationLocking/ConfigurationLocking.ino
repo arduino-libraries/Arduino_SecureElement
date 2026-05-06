@@ -7,7 +7,7 @@
   https://github.com/arduino-libraries/ArduinoECCX08/blob/master/src/utility/ECCX08DefaultTLSConfig.h
 
   SE050 do not have EEPROM configuration and do not need to be locked
-  to work correctly. secureElement.locked() always returns true for SE050
+  to work correctly. SecureElement.locked() always returns true for SE050
   and the sketch does nothing.
 
   The circuit:
@@ -22,20 +22,18 @@ void setup() {
   Serial.begin(9600);
   while (!Serial);
 
-  SecureElement secureElement;
-
-  if (!secureElement.begin()) {
+  if (!SecureElement.begin()) {
     Serial.println("No SecureElement present!");
     while (1);
   }
 
-  String serialNumber = secureElement.serialNumber();
+  String serialNumber = SecureElement.serialNumber();
 
   Serial.print("SecureElement Serial Number = ");
   Serial.println(serialNumber);
   Serial.println();
 
-  if (!secureElement.locked()) {
+  if (!SecureElement.locked()) {
     String lock = promptAndReadLine("The SecureElement on your board is not locked, would you like to PERMANENTLY configure and lock it now? (y/N)", "N");
     lock.toLowerCase();
 
@@ -44,12 +42,12 @@ void setup() {
       while (1);
     }
 
-    if (!secureElement.writeConfiguration()) {
+    if (!SecureElement.writeConfiguration()) {
       Serial.println("Writing SecureElement configuration failed!");
       while (1);
     }
 
-    if (!secureElement.lock()) {
+    if (!SecureElement.lock()) {
       Serial.println("Locking SecureElement configuration failed!");
       while (1);
     }

@@ -16,18 +16,16 @@
 
 #include <Arduino_SecureElement.h>
 
-SecureElement secureElement;
-
 void setup() {
   Serial.begin(9600);
   while (!Serial);
 
-  if (!secureElement.begin()) {
+  if (!SecureElement.begin()) {
     Serial.println("Failed to communicate with SecureElement!");
     while (1);
   }
 
-  if (!secureElement.locked()) {
+  if (!SecureElement.locked()) {
     Serial.println("The SecureElement is not locked!");
     while (1);
   }
@@ -35,7 +33,7 @@ void setup() {
 
 void loop() {
   Serial.print("Random number = ");
-  Serial.println(secureElement.random(65535));
+  Serial.println(SecureElement.random(65535));
 
   delay(1000);
 }

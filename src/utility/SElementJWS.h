@@ -25,10 +25,10 @@ class SElementJWS : public ECP256Certificate
 {
 public:
 
-  String publicKey(SecureElement & se, int slot, bool newPrivateKey = true);
+  String publicKey(SecureElementClass & se, int slot, bool newPrivateKey = true);
 
-  String sign(SecureElement & se, int slot, const char* header, const char* payload);
-  String sign(SecureElement & se, int slot, const String& header, const String& payload);
+  String sign(SecureElementClass & se, int slot, const char* header, const char* payload);
+  String sign(SecureElementClass & se, int slot, const String& header, const String& payload);
 
 };
 

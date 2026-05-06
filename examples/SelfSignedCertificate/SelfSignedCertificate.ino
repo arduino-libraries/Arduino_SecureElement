@@ -24,20 +24,18 @@ void setup() {
   Serial.begin(9600);
   while (!Serial);
 
-  SecureElement secureElement;
-
-  if (!secureElement.begin()) {
+  if (!SecureElement.begin()) {
     Serial.println("No SecureElement present!");
     while (1);
   }
 
-  String serialNumber = secureElement.serialNumber();
+  String serialNumber = SecureElement.serialNumber();
 
   Serial.print("SecureElement Serial Number = ");
   Serial.println(serialNumber);
   Serial.println();
 
-  if (!secureElement.locked()) {
+  if (!SecureElement.locked()) {
     String lock = promptAndReadLine("The SecureElement on your board is not locked, would you like to PERMANENTLY configure and lock it now? (y/N)", "N");
     lock.toLowerCase();
 
@@ -46,12 +44,12 @@ void setup() {
       while (1);
     }
 
-    if (!secureElement.writeConfiguration()) {
+    if (!SecureElement.writeConfiguration()) {
       Serial.println("Writing SecureElement configuration failed!");
       while (1);
     }
 
-    if (!secureElement.lock()) {
+    if (!SecureElement.lock()) {
       Serial.println("Locking SecureElement configuration failed!");
       while (1);
     }
@@ -78,15 +76,15 @@ void setup() {
   ECP256Certificate Certificate;
 
   Certificate.begin();
-  Certificate.setIssuerCommonName(secureElement.serialNumber());
-  Certificate.setSubjectCommonName(secureElement.serialNumber());
+  Certificate.setIssuerCommonName(SecureElement.serialNumber());
+  Certificate.setSubjectCommonName(SecureElement.serialNumber());
   Certificate.setIssueYear(issueYear.toInt());
   Certificate.setIssueMonth(issueMonth.toInt());
   Certificate.setIssueDay(issueDay.toInt());
   Certificate.setIssueHour(issueHour.toInt());
   Certificate.setExpireYears(expireYears.toInt());
 
-  if (!SElementCertificate::build(secureElement, Certificate, privateKeySlot.toInt(), generateNewKey.startsWith("y"), true /* self signed certificate */)) {
+  if (!SElementCertificate::build(SecureElement, Certificate, privateKeySlot.toInt(), generateNewKey.startsWith("y"), true /* self signed certificate */)) {
     Serial.println("Error starting certificate generation!");
     while (1);
   }

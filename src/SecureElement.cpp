@@ -8,72 +8,14 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
-/******************************************************************************
- * INCLUDE
- ******************************************************************************/
-
-#include <SecureElementConfig.h>
 #include <SecureElement.h>
 
-/**************************************************************************************
- * CTOR/DTOR
- **************************************************************************************/
-SecureElement::SecureElement()
 #if defined(SECURE_ELEMENT_IS_SE050)
-: _secureElement {SE05X}
+SecureElementClass &SecureElement(SE05X);
 #elif defined(SECURE_ELEMENT_IS_ECCX08)
-: _secureElement {ECCX08}
+SecureElementClass &SecureElement(ECCX08);
 #elif defined(SECURE_ELEMENT_IS_SOFTSE)
-: _secureElement {SATSE}
+SecureElementClass &SecureElement(SATSE);
 #else
-
+#error "Undefined secure element implementation for the current platform"
 #endif
-{
-
-}
-
-/******************************************************************************
- * PUBLIC MEMBER FUNCTIONS
- ******************************************************************************/
-
-int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
-{
-#if defined(SECURE_ELEMENT_IS_SOFTSE)
-  return _secureElement.SHA256(buffer, size, digest);
-#else
-  _secureElement.beginSHA256();
-  uint8_t * cursor = (uint8_t*)buffer;
-  uint32_t bytes_read = 0;
-#if defined(SECURE_ELEMENT_IS_SE050)
-  size_t outLen = 32;
-  for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64) {
-    _secureElement.updateSHA256(cursor, 64);
-  }
-  _secureElement.updateSHA256(cursor, size - bytes_read);
-  return _secureElement.endSHA256(digest, &outLen);
-#else
-  for(; bytes_read + 64 < size; bytes_read += 64, cursor += 64) {
-    _secureElement.updateSHA256(cursor);
-  }
-  return _secureElement.endSHA256(cursor, size - bytes_read, digest);
-#endif
-#endif
-}
-
-int SecureElement::serialNumber(byte sn[], size_t length)
-{
-#if defined(SECURE_ELEMENT_IS_SE050)
-  return _secureElement.serialNumber(sn, length);
-#else
-  if (sn == nullptr || length < SE_SN_LENGTH) {
-    return 0;
-  }
-  uint8_t tmp[12];
-  if (!_secureElement.serialNumber(tmp)) {
-    return 0;
-  }
-  memcpy(sn, tmp, SE_SN_LENGTH);
-  return 1;
-#endif
-}
-

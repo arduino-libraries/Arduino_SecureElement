@@ -15,7 +15,7 @@
 #include <utility/SElementJWS.h>
 #include <utility/SElementBase64.h>
 
-String SElementJWS::publicKey(SecureElement & se, int slot, bool newPrivateKey)
+String SElementJWS::publicKey(SecureElementClass & se, int slot, bool newPrivateKey)
 {
   if (slot < 0 || slot > 8) {
     return "";
@@ -41,7 +41,7 @@ String SElementJWS::publicKey(SecureElement & se, int slot, bool newPrivateKey)
   return b64::pemEncode(out, length, "-----BEGIN PUBLIC KEY-----\n", "\n-----END PUBLIC KEY-----\n");
 }
 
-String SElementJWS::sign(SecureElement & se, int slot, const char* header, const char* payload)
+String SElementJWS::sign(SecureElementClass & se, int slot, const char* header, const char* payload)
 {
   if (slot < 0 || slot > 8) {
     return "";
@@ -79,7 +79,7 @@ String SElementJWS::sign(SecureElement & se, int slot, const char* header, const
   return result;
 }
 
-String SElementJWS::sign(SecureElement & se, int slot, const String& header, const String& payload)
+String SElementJWS::sign(SecureElementClass & se, int slot, const String& header, const String& payload)
 {
   return sign(se, slot, header.c_str(), payload.c_str());
 }
