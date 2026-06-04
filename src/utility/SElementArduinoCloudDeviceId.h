@@ -25,8 +25,8 @@ class SElementArduinoCloudDeviceId
 {
 public:
 
-  static int write(SecureElement & se, String & deviceId, const SElementArduinoCloudSlot idSlot);
-  static int read(SecureElement & se, String & deviceId, const SElementArduinoCloudSlot idSlot);
+  static int write(SecureElementClass & se, String & deviceId, const SElementArduinoCloudSlot idSlot);
+  static int read(SecureElementClass & se, String & deviceId, const SElementArduinoCloudSlot idSlot);
 
 };
 

@@ -10,7 +10,7 @@
 #include "SElementArduinoCloudJWT.h"
 
 constexpr char JWT_HEADER[] = "{\"alg\":\"ES256\",\"typ\":\"JWT\"}";
-String getAIoTCloudJWT(SecureElement &se, String issuer, uint64_t iat, uint8_t slot)
+String getAIoTCloudJWT(SecureElementClass &se, String issuer, uint64_t iat, uint8_t slot)
 {
   SElementJWS jws;
   String jwtClaim = "{\"iat\":";

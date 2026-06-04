@@ -34,20 +34,18 @@ void setup() {
   Serial.begin(9600);
   while (!Serial);
 
-  SecureElement secureElement;
-
-  if (!secureElement.begin()) {
+  if (!SecureElement.begin()) {
     Serial.println("No SecureElement present!");
     while (1);
   }
 
-  String serialNumber = secureElement.serialNumber();
+  String serialNumber = SecureElement.serialNumber();
 
   Serial.print("SecureElement Serial Number = ");
   Serial.println(serialNumber);
   Serial.println();
 
-  if (!secureElement.locked()) {
+  if (!SecureElement.locked()) {
     String lock = promptAndReadLine("The SecureElement on your board is not locked, would you like to PERMANENTLY configure and lock it now? (y/N)", "N");
     lock.toLowerCase();
 
@@ -56,12 +54,12 @@ void setup() {
       while (1);
     }
 
-    if (!secureElement.writeConfiguration()) {
+    if (!SecureElement.writeConfiguration()) {
       Serial.println("Writing SecureElement configuration failed!");
       while (1);
     }
 
-    if (!secureElement.lock()) {
+    if (!SecureElement.lock()) {
       Serial.println("Locking SecureElement configuration failed!");
       while (1);
     }
@@ -96,7 +94,7 @@ void setup() {
   CSR.setSubjectOrganizationalUnitName(organizationalUnit);
   CSR.setSubjectCommonName(common);
 
-  if (!SElementCSR::build(secureElement, CSR, slot.toInt(), generateNewKey.startsWith("y"))) {
+  if (!SElementCSR::build(SecureElement, CSR, slot.toInt(), generateNewKey.startsWith("y"))) {
     Serial.println("Error starting CSR generation!");
     while (1);
   }

@@ -14,7 +14,7 @@
 
 #include <utility/SElementArduinoCloudDeviceId.h>
 
-int SElementArduinoCloudDeviceId::write(SecureElement & se, String & deviceId, const SElementArduinoCloudSlot idSlot)
+int SElementArduinoCloudDeviceId::write(SecureElementClass & se, String & deviceId, const SElementArduinoCloudSlot idSlot)
 {
   byte device_id_bytes[ECP256_CERT_COMPRESSED_CERT_SLOT_LENGTH] = {0};
 
@@ -26,7 +26,7 @@ int SElementArduinoCloudDeviceId::write(SecureElement & se, String & deviceId, c
   return 1;
 }
 
-int SElementArduinoCloudDeviceId::read(SecureElement & se, String & deviceId, const SElementArduinoCloudSlot idSlot)
+int SElementArduinoCloudDeviceId::read(SecureElementClass & se, String & deviceId, const SElementArduinoCloudSlot idSlot)
 {
   byte device_id_bytes[ECP256_CERT_COMPRESSED_CERT_SLOT_LENGTH] = {0};
 

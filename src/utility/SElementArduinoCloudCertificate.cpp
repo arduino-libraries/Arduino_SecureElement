@@ -47,7 +47,7 @@ const char constexpr SElementArduinoCloudCertificate::SEACC_ISSUER_COMMON_NAME[]
  * PUBLIC MEMBER FUNCTIONS
  ******************************************************************************/
 
-int SElementArduinoCloudCertificate::write(SecureElement & se, ECP256Certificate & cert, const SElementArduinoCloudSlot certSlot)
+int SElementArduinoCloudCertificate::write(SecureElementClass & se, ECP256Certificate & cert, const SElementArduinoCloudSlot certSlot)
 {
 #if defined(SECURE_ELEMENT_IS_SE050) || defined(SECURE_ELEMENT_IS_SOFTSE)
   if (!se.writeSlot(static_cast<int>(certSlot), cert.bytes(), cert.length())) {
@@ -69,7 +69,7 @@ int SElementArduinoCloudCertificate::write(SecureElement & se, ECP256Certificate
   return 1;
 }
 
-int SElementArduinoCloudCertificate::read(SecureElement & se, ECP256Certificate & cert, const SElementArduinoCloudSlot certSlot, const SElementArduinoCloudSlot keySlot)
+int SElementArduinoCloudCertificate::read(SecureElementClass & se, ECP256Certificate & cert, const SElementArduinoCloudSlot certSlot, const SElementArduinoCloudSlot keySlot)
 {
 #if defined(SECURE_ELEMENT_IS_SE050) || defined(SECURE_ELEMENT_IS_SOFTSE)
   (void)keySlot;
@@ -146,7 +146,7 @@ int SElementArduinoCloudCertificate::signatureCompare(const byte * signatureA, c
 }
 
 int SElementArduinoCloudCertificate::rebuild(
-    SecureElement & se, ECP256Certificate & cert, const String & deviceId,
+    SecureElementClass & se, ECP256Certificate & cert, const String & deviceId,
     const String & notBefore, const String & notAfter, const String & serialNumber,
     const String & authorityKeyIdentifier, const String & signature,
     const SElementArduinoCloudSlot keySlot)

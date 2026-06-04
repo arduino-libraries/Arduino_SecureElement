@@ -18,7 +18,7 @@
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
-SecureElement::SecureElement()
+SecureElementClass::SecureElementClass()
 #if defined(SECURE_ELEMENT_IS_SE050)
 : _secureElement {SE05X}
 #elif defined(SECURE_ELEMENT_IS_ECCX08)
@@ -36,7 +36,7 @@ SecureElement::SecureElement()
  * PUBLIC MEMBER FUNCTIONS
  ******************************************************************************/
 
-int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
+int SecureElementClass::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
 {
 #if defined(SECURE_ELEMENT_IS_SOFTSE)
   return _secureElement.SHA256(buffer, size, digest);
@@ -60,7 +60,7 @@ int SecureElement::SHA256(const uint8_t *buffer, size_t size, uint8_t *digest)
 #endif
 }
 
-int SecureElement::serialNumber(byte sn[], size_t length)
+int SecureElementClass::serialNumber(byte sn[], size_t length)
 {
 #if defined(SECURE_ELEMENT_IS_SE050)
   return _secureElement.serialNumber(sn, length);
@@ -77,3 +77,4 @@ int SecureElement::serialNumber(byte sn[], size_t length)
 #endif
 }
 
+SecureElementClass SecureElement;

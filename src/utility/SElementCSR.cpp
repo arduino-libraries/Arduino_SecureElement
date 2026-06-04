@@ -14,7 +14,7 @@
 
 #include <utility/SElementCSR.h>
 
-int SElementCSR::build(SecureElement & se, ECP256Certificate & cert, const int keySlot, bool newPrivateKey)
+int SElementCSR::build(SecureElementClass & se, ECP256Certificate & cert, const int keySlot, bool newPrivateKey)
 {
   byte publicKey[ECP256_CERT_PUBLIC_KEY_LENGTH];
   byte signature[ECP256_CERT_SIGNATURE_LENGTH];

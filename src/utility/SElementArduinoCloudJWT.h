@@ -12,6 +12,6 @@
 #define SECURE_ELEMENT_AIoTCloud_JWT_H_
 #include "SElementJWS.h"
 
-String getAIoTCloudJWT(SecureElement &se, String issuer, uint64_t iat, uint8_t slot = 1);
+String getAIoTCloudJWT(SecureElementClass &se, String issuer, uint64_t iat, uint8_t slot = 1);
 
 #endif
