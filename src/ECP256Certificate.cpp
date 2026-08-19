@@ -12,8 +12,11 @@
  * INCLUDE
  ******************************************************************************/
 
+#ifndef _GNU_SOURCE
 /* This is needed for memmem */
 #define _GNU_SOURCE
+#endif
+
 #include <string.h>
 #include <utility/SElementBase64.h>
 #include "ECP256Certificate.h"
