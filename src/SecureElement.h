@@ -22,7 +22,7 @@
   #include <ECCX08.h>
   #include <utility/ECCX08DefaultTLSConfig.h>
 #elif defined(SECURE_ELEMENT_IS_SE050)
-  #include <SE05X.h>
+  #include <Arduino_SE05X.h>
 #elif defined(SECURE_ELEMENT_IS_SOFTSE)
   #include <SoftwareATSE.h>
 #else
